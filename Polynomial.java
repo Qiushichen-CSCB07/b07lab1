@@ -35,7 +35,7 @@ public class Polynomial{
 		double result;
         result = 0;
 		for(int i = 0; i < this.coefficient.length; i ++){
-			result = result + this.coefficient[i]*Math.pow(num, this.coefficient[i]);
+			result = result + this.coefficient[i]*Math.pow(num, i);
 		}
 		return result;
 	}
