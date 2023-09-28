@@ -1,17 +1,45 @@
+import java.io.File;
 
 public class Driver {
-		public static void main(String [] args) {
-		Polynomial p = new Polynomial();
-		System.out.println(p.evaluate(3));
-		double [] c1 = {6,0,0,5};
-		Polynomial p1 = new Polynomial(c1);
-		double [] c2 = {0,-2,0,0,-9};
-		Polynomial p2 = new Polynomial(c2);
-		Polynomial s = p1.add(p2);
-		System.out.println("s(0.1) = " + s.evaluate(0.1));
-		if(s.hasRoot(1))
-		System.out.println("1 is a root of s");
-		else
-		System.out.println("1 is not a root of s");
+	
+	
+	public static void main(String[] args) throws Exception{
+		double coefA[] = {6,5};
+		int dgrA[] =  {0,3};
+		
+		double coefB[] = {-2,-9};
+		int dgrB[] = {1,4};
+
+		Polynomial polyA = new Polynomial(coefA, dgrA);
+		Polynomial polyB = new Polynomial(coefB,dgrB);
+		System.out.print("The PolyA is: ");
+		polyA.Show();
+		System.out.print("The PolyB is: ");
+		polyB.Show();
+		
+		System.out.print("The PolyA * PolyB is: ");
+		polyA.multiply(polyB).Show();
+		polyA.add(polyB);
+		System.out.print("The PolyA+B is: ");
+		polyA.Show();
+		
+		System.out.println("PolyA(0.1) is " + polyA.evaluate(0.1));
+		if(polyA.hasRoot(1)) {
+			System.out.println("1 is a root of polyA");
 		}
+		else {
+			System.out.println("1 is not a root of PolyA");
+		}
+		
+		File file = new File("C:\\Users\\86184\\Desktop\\2023 UTSC\\CSCB07\\JavaFileTestFolder\\Lab2InputFileTest.txt");
+		Polynomial polyC = new Polynomial(file);
+		System.out.print("The PolyC is: ");
+		polyC.Show();
+		String Strfile = "C:\\Users\\86184\\Desktop\\2023 UTSC\\CSCB07\\JavaFileTestFolder\\Lab2SaveFileTest.txt";
+		polyC.saveToFile(Strfile);
+	
+	}
+	
+	
+	
 }
