@@ -4,11 +4,11 @@ public class Driver {
 	
 	
 	public static void main(String[] args) throws Exception{
-		double coefA[] = {6,5};
-		int dgrA[] =  {0,3};
+		double coefA[] = {5,6};
+		int dgrA[] =  {3,0};
 		
-		double coefB[] = {-2,-9};
-		int dgrB[] = {1,4};
+		double coefB[] = {-9,-2};
+		int dgrB[] = {4,1};
 
 		Polynomial polyA = new Polynomial(coefA, dgrA);
 		Polynomial polyB = new Polynomial(coefB,dgrB);
@@ -36,7 +36,7 @@ public class Driver {
 		System.out.print("The PolyC is: ");
 		polyC.Show();
 		String Strfile = "C:\\Users\\86184\\Desktop\\2023 UTSC\\CSCB07\\JavaFileTestFolder\\Lab2SaveFileTest.txt";
-		polyC.saveToFile(Strfile);
+		polyB.saveToFile(Strfile);
 	
 	}
 	
