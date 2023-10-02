@@ -20,28 +20,59 @@ public class Polynomial {
         this.degree = degree;
     }
     
+    
+    public String[] ExcludeNull(String[] StrArray){
+    	int numOfNull = 0;
+    	for(int i = 0; i < StrArray.length;i++) {
+    		if(StrArray[i] == "") {
+    			numOfNull ++;
+    		}
+    	}
+    	int size = StrArray.length - numOfNull;
+    	String[] result = new String[size];
+    	int j = 0;
+    	for(int i = 0; i < StrArray.length;i++) {
+    		if(StrArray[i] != "") {
+    			result[j] = StrArray[i];
+    			j++;
+    		}
+    	}
+    	return result;
+    }
+    
     public Polynomial(File file) throws Exception{
         BufferedReader input = new BufferedReader(new FileReader(file));
         String line = input.readLine();
         line = line.replace("-", "+-");
-//        System.out.println(line);
-        String[] splited = line.split("\\+");
-//        for(int i = 0; i < splited.length; i ++) {
-//        	System.out.print(splited[i] + ", ");
+        
+//        System.out.println("the line is: " + line + "\n");
+        
+        String[] Initialsplited = line.split("\\+");
+		
+//        System.out.println("");
+//        for(int i = 0; i < Initialsplited.length; i ++) {
+//        	System.out.print(Initialsplited[i] + ", ");
 //        }
+        
+        String[] splited = ExcludeNull(Initialsplited);
+        
+        
         double[] coefficient = new double[splited.length];
         int[] degree = new int[splited.length];
         String[] part = null;
 
         for(int i = 0; i < splited.length; i++){
-            part = splited[i].split("x");
-            coefficient[i] = Double.parseDouble(part[0]);
-            if(part.length == 1){
-                degree[i] = 0;
-            }
-            else{
-                degree[i] = Integer.parseInt(part[part.length-1]);
-            }
+        	if(splited[i] != "") {
+        		part = splited[i].split("x");
+                coefficient[i] = Double.parseDouble(part[0]);
+                if(part.length == 1){
+                    degree[i] = 0;
+                }
+                else{
+                    degree[i] = Integer.parseInt(part[part.length-1]);
+                }
+        	}
+            
         }
         input.close();
         
@@ -49,20 +80,45 @@ public class Polynomial {
         this.degree = degree;
     }
     
+    public int MaxOfArray(int[] degree) {
+    	int max = 0;
+    	for(int i = 0; i < degree.length; i ++) {
+    		if(degree[i] > max) {
+    			max = degree[i];
+    		}
+    	}
+    	return max;
+    }
+    
+    public int IndexOfArray(int target, int[] degree) {
+    	int result = -1;
+    	for(int i = 0; i < degree.length; i++) {
+    		if(target == degree[i]) {
+    			result = i;
+    			break;
+    		}
+    	}
+    	return result;
+    }
+    
     public double[] PolyArray(double[] coefficient, int[] degree){
     	//this helper function convert coefficient[] and degree[] into a double array :PolyArray[]
-        int size = (degree[degree.length - 1]) + 1;
+    	int size = MaxOfArray(degree) + 1;
+
         double[] result = new double[size];
-        int j = 0;
         for(int i = 0; i < size; i ++){
-            if(i == degree[j]){
-                result[i] =  coefficient[j];
-                j ++;
+            if(IndexOfArray(i,degree) != -1){
+                result[i] =  coefficient[IndexOfArray(i,degree)];
             }
             else{
                 result[i] = 0;
             }
         }
+//        System.out.println();
+//        for(int i = 0; i < result.length; i ++) {
+//        	System.out.print(result[i] + ", ");
+//        }
+//        System.out.println();
         return result;
 
     }
@@ -108,7 +164,9 @@ public class Polynomial {
     public Polynomial add(Polynomial that){
     	double[] thisPoly = PolyArray(this.coefficient, this.degree);
         double[] thatPoly = PolyArray(that.coefficient, that.degree);
+        
         int size = Math.max(thisPoly.length, thatPoly.length);
+        
         double[] result = new double[size];
         for(int i = 0; i < size; i++){
             if(i < thisPoly.length && i < thatPoly.length){
@@ -140,7 +198,8 @@ public class Polynomial {
     }
 
     public Polynomial multiply(Polynomial that){
-    	int size = (int)this.degree[this.degree.length - 1] + (int)that.degree[that.degree.length - 1] + 1;
+//    	int size = (int)this.degree[this.degree.length - 1] + (int)that.degree[that.degree.length - 1] + 1;
+    	int size = MaxOfArray(this.degree) + MaxOfArray(that.degree) + 1;
         double[] newPoly = new double[size];
         for(int i = 0; i < newPoly.length;i++) {
         	newPoly[i] = 0;
@@ -158,20 +217,23 @@ public class Polynomial {
     	File file = new File(Strfile);
     	PrintStream ps = new PrintStream(file);
         String result = "";
+        double[] polyArray = PolyArray(this.coefficient,this.degree);
         if (this.degree != null){
-        	result += Double.toString(this.coefficient[0]);
-            for (int i = 1; i < this.degree.length; i++){
-                if (this.coefficient[i] > 0){
+        	if(polyArray[0] != 0) {
+        	result += Double.toString(polyArray[0]);
+        	}
+            for (int i = 1; i < polyArray.length; i++){
+                if (polyArray[i] > 0){
                     result += "+";
-                }
-                result += Double.toString(this.coefficient[i]);
-                if (this.degree[i] != 0){
+                    result += Double.toString(polyArray[i]);
                     result += "x";
-                    if (this.degree[i] > 1){
-                        result += Integer.toString(this.degree[i]);
-                    }
+                    result += Integer.toString(i);
                 }
-                
+                else if(polyArray[i] < 0) {
+                	result += Double.toString(polyArray[i]);
+                    result += "x";
+                    result += Integer.toString(i);
+                }
                 
             }
 
