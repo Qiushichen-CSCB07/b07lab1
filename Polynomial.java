@@ -178,6 +178,9 @@ public class Polynomial {
             else if(i >= thisPoly.length && i < thatPoly.length){
                 result[i] = thatPoly[i];
             }
+            else {
+            	result[i] = 0;
+            }
         }
         this.coefficient = Coef(result);
         this.degree = Dgr(result);
