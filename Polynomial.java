@@ -64,13 +64,13 @@ public class Polynomial {
         for(int i = 0; i < splited.length; i++){
         	if(splited[i] != "") {
         		part = splited[i].split("x");
-                	coefficient[i] = Double.parseDouble(part[0]);
-                	if(part.length == 1){
-                    		degree[i] = 0;
-                	}
-                	else{
-                    		degree[i] = Integer.parseInt(part[part.length-1]);
-                	}
+                coefficient[i] = Double.parseDouble(part[0]);
+                if(part.length == 1){
+                    degree[i] = 0;
+                }
+                else{
+                    degree[i] = Integer.parseInt(part[part.length-1]);
+                }
         	}
             
         }
@@ -175,7 +175,7 @@ public class Polynomial {
             else if(i < thisPoly.length && i >= thatPoly.length){
                 result[i] = thisPoly[i];
             }
-            else{
+            else if(i >= thisPoly.length && i < thatPoly.length){
                 result[i] = thatPoly[i];
             }
         }
