@@ -241,6 +241,9 @@ public class Polynomial {
             }
 
         }
+        if(result.charAt(0)=='+') {
+        	result = result.substring(1);
+        }
         ps.print(result);
         ps.close();
     }
